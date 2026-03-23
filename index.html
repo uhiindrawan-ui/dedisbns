@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dedi S Bns Live</title>
+
+<style>
+body {
+  margin: 0;
+  background: black;
+  font-family: Arial, sans-serif;
+  display: flex;
+  justify-content: center;
+}
+
+.container {
+  width: 100%;
+  max-width: 400px;
+  height: 100vh;
+  position: relative;
+  overflow: hidden;
+}
+
+/* TOP */
+.top {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  display: flex;
+  align-items: center;
+  color: white;
+}
+
+.profile {
+  width: 35px;
+  height: 35px;
+  border-radius: 50%;
+  margin-right: 8px;
+  border: 2px solid white;
+}
+
+.name {
+  font-size: 14px;
+  font-weight: bold;
+}
+
+.live {
+  background: red;
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-size: 12px;
+  margin-left: 6px;
+}
+
+/* COMMENTS */
+.comments {
+  position: absolute;
+  bottom: 140px;
+  left: 10px;
+  color: white;
+  font-size: 13px;
+  max-width: 75%;
+}
+
+.comment {
+  margin-bottom: 6px;
+}
+
+/* USERNAME COLOR */
+.username { font-weight: bold; }
+.c1 { color: #a0c4ff; }
+.c2 { color: #ffafcc; }
+.c3 { color: #ffd6a5; }
+.c4 { color: #b9fbc0; }
+.c5 { color: #cdb4db; }
+.c6 { color: #f1f1f1; }
+
+/* RIGHT */
+.right {
+  position: absolute;
+  right: 10px;
+  bottom: 150px;
+  color: white;
+  text-align: center;
+}
+
+.icon {
+  margin-bottom: 15px;
+  font-size: 22px;
+}
+
+/* JOIN BUTTON */
+.join-btn {
+  position: absolute;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 85%;
+  padding: 14px;
+  background: linear-gradient(45deg, #ff0050, #ff7a00);
+  color: white;
+  text-align: center;
+  border-radius: 30px;
+  font-weight: bold;
+  font-size: 16px;
+  cursor: pointer;
+  box-shadow: 0 0 15px rgba(255,0,80,0.6);
+}
+
+/* GIFT */
+.gift {
+  position: absolute;
+  bottom: 190px;
+  left: 50%;
+  transform: translateX(-50%);
+  color: gold;
+  font-weight: bold;
+  font-size: 14px;
+  animation: floatUp 2s ease forwards;
+}
+
+@keyframes floatUp {
+  0% {opacity:0;}
+  100% {opacity:0; transform:translateY(-100px);}
+}
+
+/* HEART */
+.heart {
+  position: absolute;
+  bottom: 140px;
+  right: 20px;
+  animation: floatHeart 2s linear forwards;
+}
+
+@keyframes floatHeart {
+  0% {opacity:1;}
+  100% {opacity:0; transform:translateY(-120px);}
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+  <div class="top">
+    <img class="profile" src="https://i.imgur.com/yUWov77.jpeg">
+    <div>
+      <div class="name">Dedi S Bns <span class="live">LIVE</span></div>
+      <div style="font-size:12px;">3.8K Penonton</div>
+    </div>
+  </div>
+
+  <div class="comments" id="comments"></div>
+
+  <div class="right">
+    <div class="icon">❤️</div>
+    <div class="icon">💬</div>
+    <div class="icon">🎁</div>
+  </div>
+
+  <div class="join-btn" onclick="start()">
+    ▶ Masuk Live Sekarang 🔥
+  </div>
+
+</div>
+
+<script>
+
+// NAMA WANITA
+const names = [
+  "Ayu","Sari","Rina","Dewi","Lia",
+  "Nina","Putri","Vina","Maya","Tika",
+  "Indah","Wulan","Rani","Nadia","Citra",
+  "Sinta","Dinda","Bella","Nisa","Aulia"
+];
+
+// KOMENTAR WANITA (KAGUM + GENIT HALUS)
+const commentsList = [
+  "ganteng banget sih 😍",
+  "senyumnya bikin adem ya",
+  "aku jadi salah fokus 😳",
+  "kok bisa seganteng ini",
+  "ini real atau gimana sih 😭",
+  "aku betah banget nonton",
+  "aura nya beda banget",
+  "ini sih bikin klepek klepek",
+  "aku diem aja deh liatin",
+  "bisa gini tiap hari gak sih",
+  "serius ini bikin nagih",
+  "aku jadi senyum sendiri 😭",
+  "gantengnya gak wajar",
+  "aku kira cuma lewat jadi stay",
+  "ini sih udah level atas",
+  "aku gak kuat liat senyumnya",
+  "kok bisa setenang ini ya",
+  "ini tipe idaman banget",
+  "aku save dulu deh",
+  "aku langsung jatuh hati 😳"
+];
+
+const styles = ["jujur","serius","asli","fix","demi apa"];
+const colors = ["c1","c2","c3","c4","c5","c6"];
+
+function randomComment() {
+  let text = commentsList[Math.floor(Math.random()*commentsList.length)];
+  const style = styles[Math.floor(Math.random()*styles.length)];
+
+  if (Math.random() < 0.3) {
+    text = text.replace("banget", "bangettt");
+  }
+
+  return text + " " + style;
+}
+
+// COMMENT LOOP
+function commentLoop() {
+  const el = document.createElement("div");
+  el.className = "comment";
+
+  const name = names[Math.floor(Math.random()*names.length)];
+  const color = colors[Math.floor(Math.random()*colors.length)];
+
+  el.innerHTML = `<span class="username ${color}">${name}</span>: ${randomComment()}`;
+
+  document.getElementById("comments").appendChild(el);
+
+  setTimeout(()=> el.remove(), 5000);
+
+  const delay = Math.floor(Math.random()*800)+500;
+  setTimeout(commentLoop, delay);
+}
+commentLoop();
+
+// GIFT
+const gifts = ["🌹 Rose","💎 Diamond","🎁 Gift"];
+
+function sendGift() {
+  const el = document.createElement("div");
+  el.className = "gift";
+
+  const name = names[Math.floor(Math.random()*names.length)];
+  const gift = gifts[Math.floor(Math.random()*gifts.length)];
+
+  el.innerText = name + " sent " + gift;
+
+  document.querySelector(".container").appendChild(el);
+
+  setTimeout(()=> el.remove(), 2000);
+}
+
+function giftLoop() {
+  sendGift();
+  setTimeout(giftLoop, Math.random()*800+500);
+}
+giftLoop();
+
+// HEART
+function heartLoop() {
+  const el = document.createElement("div");
+  el.className = "heart";
+  el.innerText = "❤️";
+
+  document.querySelector(".container").appendChild(el);
+
+  setTimeout(()=> el.remove(), 2000);
+  setTimeout(heartLoop, 400);
+}
+heartLoop();
+
+// REDIRECT
+function start() {
+  setTimeout(()=>{
+    window.location.href = "https://s.shopee.co.id/5AnsGzkMx0";
+  },500);
+}
+
+</script>
+<script src="https://bendspecimen.com/3c/12/23/3c12233ca766109816beacad9eb1b5b0.js"></script>
+</body>
+</html>
